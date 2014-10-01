@@ -7,43 +7,45 @@ import sys
 import happybase
 
 
-#connection = happybase.Connection('localhost')
-c = happybase.Connection()
 
+# test tablename and table schema
+table_name = r'rock_gods'
+families = {
+    'genre': dict(max_versions=5),
+    'hairstyle': dict(max_versions=9)
+}
+
+# connect to Thrift, then to HBase
+c = happybase.Connection()
 
 # query
 tables = c.tables()
-
 print '\navailable hbase tables:'
 print '\t', tables
 print '\n'
 
-
-
-# lazy create a testing table
-table_name = r'rock_gods'
-
-
+# lazy create the table - http://happybase.readthedocs.org/en/latest/api.html#happybase.Connection.create_table
 if table_name not in tables:
-  # schema definition
-  families = {
-      'musical_style': dict(max_versions=5),
-      'hairstyle:': dict(max_versions=9, block_cache_enabled=False)
-  }
   c.create_table(table_name, families)
 
+# fetch a table reference
+table = c.table(table_name)
+
+# insert
+table.put('the beatles', {'genre:': 'brit-pop',
+                          'hairstyle:john': 'mop-top',
+                          'hairstyle:paul': 'mop-top',
+                          'hairstyle:george': 'mop-top',
+                          'hairstyle:ringo': 'mop-top'})
 
 
-# query
-print '\navailable hbase tables:'
-print '\t', c.tables()
-print '\n'
 
 
 
-# cleanup
+
+
+# cleanup to prevent state changes
 c.delete_table(table_name, disable=True)
-
 
 
 # exit
