@@ -58,3 +58,8 @@ stop-hbase.sh
 
 
 
+# --- THRIFT ---
+# start a threadpool, preferably in a tmux session
+hbase thrift start -threadpool
+
+
