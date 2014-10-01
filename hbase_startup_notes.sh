@@ -3,7 +3,9 @@
 # http://hadoop.apache.org/docs/r1.2.1/single_node_setup.html#Prepare+to+Start+the+Hadoop+Cluster
 # http://hbase.apache.org/book/quickstart.html
 #
-
+# On OSX, use brew to install hadoop, hbase, and thrift.
+# note that this script isn't runnable, some sections are hbase cli script.
+#
 
 
 #
@@ -12,7 +14,7 @@
 hadoop namenode -format -force
 start-all.sh
 
-# loook at the monitoring ui
+# loook at the monitoring web ui
 open http://localhost:50070/
 open http://localhost:50030/
 
